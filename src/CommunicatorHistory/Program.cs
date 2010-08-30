@@ -78,8 +78,6 @@ namespace CommunicatorHistory
             }
             
             Process.Start(fileName);
-
-            
         }
 
         static void messenger_OnIMWindowCreated(object pIMWindow)
