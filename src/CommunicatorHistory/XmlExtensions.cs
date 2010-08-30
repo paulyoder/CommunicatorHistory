@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CommunicatorHistory
 {
-    public static class XmlUtilities
+    public static class XmlExtensions
     {
         public static string InnerText(this string xml, int openBracketIndex)
         {

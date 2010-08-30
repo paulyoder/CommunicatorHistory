@@ -40,7 +40,7 @@ namespace CommunicatorHistory
 
             var history = ConversationWindow.History;
             if (history != null)
-                _communications = GetCommunications(history);
+                _communications = GetCommunicationsFromHistory(history);
         }
 
         public void Dispose()
@@ -49,7 +49,7 @@ namespace CommunicatorHistory
             ConversationWindow = null;
         }
 
-        private List<Communication> GetCommunications(string history)
+        private List<Communication> GetCommunicationsFromHistory(string history)
         {
             var communications = new List<Communication>();
 
