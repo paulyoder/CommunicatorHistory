@@ -10,5 +10,6 @@ namespace CommunicatorHistory
         DateTime StartTime { get; }
         DateTime EndTime { get; }
         IEnumerable<Communication> Communications { get; }
+        IEnumerable<string> Contacts { get; }
     }
 }

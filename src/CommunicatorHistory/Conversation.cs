@@ -11,11 +11,13 @@ namespace CommunicatorHistory
     {
         public IMessengerConversationWndAdvanced ConversationWindow { get; private set; }
         private List<Communication> _communications;
+        private List<string> _contacts;
 
         internal Conversation(IMessengerConversationWndAdvanced conversationWindow)
         {
             ConversationWindow = conversationWindow;
             _communications = new List<Communication>();
+            _contacts = new List<string>();
         }
 
         public DateTime StartTime
@@ -33,12 +35,29 @@ namespace CommunicatorHistory
             get { return _communications; }
         }
 
+        public IEnumerable<string> Contacts
+        {
+            get { return _contacts; }
+        }
+
         public void RecordCommunications()
         {
             if (ConversationWindow.IsClosed)
                 return;
 
-            var history = ConversationWindow.History;
+            UpdateCommunicationsFromHistory(ConversationWindow.History);
+            UpdateContacts(ConversationWindow.Contacts);
+        }
+
+        private void UpdateContacts(IMessengerContacts contacts)
+        {
+            _contacts.Clear();
+            foreach (IMessengerContact contact in contacts)
+                _contacts.Add(contact.FriendlyName);
+        }
+
+        private void UpdateCommunicationsFromHistory(string history)
+        {
             if (history != null)
                 _communications = GetCommunicationsFromHistory(history);
         }

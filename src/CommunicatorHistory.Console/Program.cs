@@ -22,17 +22,9 @@ namespace CommunicatorHistory.Console
         {
             var workingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var fileName = Path.Combine(workingDirectory, "History.txt");
-            
-            using (TextWriter file = File.CreateText(fileName))
-            {
-                foreach (var communication in e.EventData.Communications)
-                {
-                    file.WriteLine("{0} ({1})", communication.Sender, communication.TimeStamp);
-                    foreach (var message in communication.Messages)
-                        file.WriteLine("\t- {0}", message);
-                    file.WriteLine();
-                }
-            }
+
+            var fileSaver = new SaveConversationToFile(fileName);
+            fileSaver.Save(e.EventData);
 
             Process.Start(fileName);
         }
