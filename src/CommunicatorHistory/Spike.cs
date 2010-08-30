@@ -57,7 +57,7 @@ namespace CommunicatorHistory
         private string GetInnerText(string history, int index)
         {
             var openBracketIndex = history.LastIndexOf("<", index);
-            return new XmlUtilities().InnerText(history, openBracketIndex);
+            return XmlUtilities.InnerText(history, openBracketIndex);
         }
     }
 }
