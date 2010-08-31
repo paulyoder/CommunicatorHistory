@@ -5,28 +5,42 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Diagnostics;
+using log4net;
+using System.Configuration;
 
 namespace CommunicatorHistory.WinForm
 {
     static class Program
     {
+        static ILog _log = LogManager.GetLogger("WinForm");
+
         static string _historyFile = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
             "IM History.txt");
         
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            var communicator = new Communicator(3);
-            communicator.ConversationEnded += (s, e) => new SaveConversationToFile(_historyFile).Save(e.EventData);
+            try
+            {
+                _log.InfoFormat("User: {0}", Environment.UserName);
+                var communicator = new Communicator(GetRecordHistoryInterval());
+                communicator.ConversationEnded += (s, e) => new SaveConversationToFile(_historyFile).Save(e.EventData);
 
-            var notifyIcon = MakeNotifyIcon();
-            notifyIcon.Visible = true;
-            Application.Run();
-            notifyIcon.Visible = false;
+                var notifyIcon = MakeNotifyIcon();
+                notifyIcon.Visible = true;
+                Application.Run();
+                notifyIcon.Visible = false;
+            }
+            catch (Exception e)
+            {
+                _log.Error("Exception caught", e);
+            }
+        }
+
+        static int GetRecordHistoryInterval()
+        {
+            return Int32.Parse(ConfigurationManager.AppSettings["RecordHistoryInterval"]);
         }
 
         static NotifyIcon MakeNotifyIcon()
@@ -45,6 +59,7 @@ namespace CommunicatorHistory.WinForm
             var exitMenuItem = new MenuItem();
             exitMenuItem.Text = "Exit";
             exitMenuItem.Click += (s, e) => Application.Exit();
+
             var viewHistoryMenuItem = new MenuItem();
             viewHistoryMenuItem.Text = "View History";
             viewHistoryMenuItem.Click += ViewHistory;
@@ -58,9 +73,21 @@ namespace CommunicatorHistory.WinForm
         static void ViewHistory(object sender, EventArgs e)
         {
             if (File.Exists(_historyFile))
-                Process.Start(_historyFile);
+            {
+                try
+                {
+                    Process.Start(_historyFile);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("Exception caught while viewing history file", ex);
+                    MessageBox.Show("Ah Snap!\n\nThere was a problem viewing the history file. Email Paul Yoder");
+                }
+            }
             else
+            {
                 MessageBox.Show("History file does not exist");
+            }
         }
     }
 }
