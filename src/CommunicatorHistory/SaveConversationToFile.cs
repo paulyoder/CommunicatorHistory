@@ -38,7 +38,7 @@ namespace CommunicatorHistory
             file.WriteLine("**********************************");
             file.WriteLine("* From: {0}", conversation.StartTime);
             file.WriteLine("*   To: {0}", conversation.EndTime);
-            file.WriteLine();
+            file.WriteLine("*");
             file.WriteLine("* Attendance:");
 
             foreach (var sender in conversation.Contacts.OrderBy(x => x))
