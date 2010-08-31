@@ -25,7 +25,7 @@ namespace CommunicatorHistory
                 {
                     file.WriteLine("{0} ({1})", communication.Sender, communication.TimeStamp);
                     foreach (var message in communication.Messages)
-                        file.WriteLine("\t- {0}", message);
+                        file.WriteLine("  - {0}", message);
                     file.WriteLine();
                 }
 

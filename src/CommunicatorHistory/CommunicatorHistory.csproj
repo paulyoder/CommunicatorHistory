@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CommunicatorHistory</RootNamespace>
-    <AssemblyName>CommunicatorHistory</AssemblyName>
+    <AssemblyName>CommunicatorHistory.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
