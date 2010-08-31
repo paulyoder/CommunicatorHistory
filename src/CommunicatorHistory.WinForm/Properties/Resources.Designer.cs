@@ -59,5 +59,12 @@ namespace CommunicatorHistory.WinForm.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Icon app_icon {
+            get {
+                object obj = ResourceManager.GetObject("app_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

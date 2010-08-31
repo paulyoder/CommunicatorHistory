@@ -48,7 +48,7 @@ namespace CommunicatorHistory.WinForm
             var notifyIcon = new NotifyIcon();
             notifyIcon.ContextMenu = MakeContextMenu();
             notifyIcon.Text = "Communicator History";
-            notifyIcon.Icon = new Icon("app-icon.ico");
+            notifyIcon.Icon = Properties.Resources.app_icon;
             return notifyIcon;
         }
 
