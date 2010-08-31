@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CommunicatorHistory
 {
-    public class XmlUtilities : IXmlUtilities
+    public static class XmlExtensions
     {
-        public string InnerText(string xml, int openBracketIndex)
+        public static string InnerText(this string xml, int openBracketIndex)
         {
             var innerText = new StringBuilder();
             var elementName = GetElementName(xml, openBracketIndex);
@@ -17,28 +17,30 @@ namespace CommunicatorHistory
             var index = openBracketIndex;
             while (index < closeElementIndex)
             {
-                if (xml.Char(index) == "<")
+                var curChar = xml.Substring(index, 1);
+
+                if (curChar == "<")
                     inElement = true;
 
-                if (!inElement)
-                    innerText.Append(xml.Substring(index, 1));
+                if (!inElement && !Char.IsControl(xml, index))
+                    innerText.Append(curChar);
 
-                if (xml.Char(index) == ">")
+                if (curChar == ">")
                     inElement = false;
 
                 index++;
             }
-
+            var test = innerText.ToString();
             return innerText.ToString();
         }
 
-        private int GetElementCloseIndex(string xml, int startIndex, string elementName)
+        private static int GetElementCloseIndex(string xml, int startIndex, string elementName)
         {
             var closeBracket = string.Format("</{0}>", elementName);
             return xml.IndexOf(closeBracket, startIndex);
         }
 
-        private string GetElementName(string xml, int openBracketIndex)
+        private static string GetElementName(string xml, int openBracketIndex)
         {
             var closeBracketIndex = xml.IndexOf(">", openBracketIndex);
             var spaceIndex = xml.IndexOf(" ", openBracketIndex);

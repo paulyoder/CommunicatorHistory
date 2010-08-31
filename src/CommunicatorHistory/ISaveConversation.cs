@@ -5,8 +5,8 @@ using System.Text;
 
 namespace CommunicatorHistory
 {
-    public interface IXmlUtilities
+    public interface ISaveConversation
     {
-        string InnerText(string xml, int openBracketIndex);
+        void Save(IConversation conversation);
     }
 }

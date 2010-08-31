@@ -13,13 +13,6 @@ namespace CommuncatorHistory.Tests
     [TestClass]
     public class XmlUtilitiesTest
     {
-        private static XmlUtilities _utility;
-
-        [ClassInitialize()]
-        public static void Initialize(TestContext testContext) 
-        {
-            _utility = new XmlUtilities();
-        }
 
         [TestMethod]
         public void InnerText_Basic()
@@ -27,7 +20,7 @@ namespace CommuncatorHistory.Tests
             var xml = "<DIV>hello</DIV>";
 
             var expected = "hello";
-            var actual = _utility.InnerText(xml, 0);
+            var actual = xml.InnerText(0);
 
             Assert.AreEqual(expected, actual);
         }
@@ -38,7 +31,7 @@ namespace CommuncatorHistory.Tests
             var xml = "<DIV style=\"margin:5px;\" id=231kd>hello</DIV>";
 
             var expected = "hello";
-            var actual = _utility.InnerText(xml, 0);
+            var actual = xml.InnerText(0);
 
             Assert.AreEqual(expected, actual);
         }
@@ -49,7 +42,18 @@ namespace CommuncatorHistory.Tests
             var xml = "<DIV style=\"margin:5px;\" id=231kd>hello <span id=23>world</span>!</DIV>";
 
             var expected = "hello world!";
-            var actual = _utility.InnerText(xml, 0);
+            var actual = xml.InnerText(0);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void InnerText_RemovesControlCharacters()
+        {
+            var xml = "<DIV style=\"margin:5px;\" id=231kd>\r\nhello <span id=23>world</span>!</DIV>";
+
+            var expected = "hello world!";
+            var actual = xml.InnerText(0);
 
             Assert.AreEqual(expected, actual);
         }
