@@ -31,6 +31,7 @@ namespace CommunicatorHistory.WinForm
                 notifyIcon.Visible = true;
                 Application.Run();
                 notifyIcon.Visible = false;
+                communicator.Dispose();
             }
             catch (Exception e)
             {
@@ -49,6 +50,7 @@ namespace CommunicatorHistory.WinForm
             notifyIcon.ContextMenu = MakeContextMenu();
             notifyIcon.Text = "Communicator History";
             notifyIcon.Icon = Properties.Resources.app_icon;
+            notifyIcon.DoubleClick += ViewHistory;
             return notifyIcon;
         }
 
