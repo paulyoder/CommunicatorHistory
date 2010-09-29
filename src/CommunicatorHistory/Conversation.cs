@@ -51,9 +51,11 @@ namespace CommunicatorHistory
 
         private void UpdateContacts(IMessengerContacts contacts)
         {
-            _contacts.Clear();
             foreach (IMessengerContact contact in contacts)
-                _contacts.Add(contact.FriendlyName);
+            {
+                if (!_contacts.Contains(contact.FriendlyName))
+                    _contacts.Add(contact.FriendlyName);
+            }
         }
 
         private void UpdateCommunicationsFromHistory(string history)
