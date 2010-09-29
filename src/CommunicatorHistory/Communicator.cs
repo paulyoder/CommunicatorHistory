@@ -75,7 +75,7 @@ namespace CommunicatorHistory
             {
                 _activeConversations.Remove(windowInList);
 
-                if (ConversationEnded != null)
+                if (windowInList.Communications.Count() > 0 && ConversationEnded != null)
                     ConversationEnded(this, new EventArgs<IConversation>(windowInList));
             }
         }
