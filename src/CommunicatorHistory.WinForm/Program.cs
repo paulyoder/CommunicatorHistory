@@ -24,6 +24,13 @@ namespace CommunicatorHistory.WinForm
             try
             {
                 _log.InfoFormat("User: {0}", Environment.UserName);
+
+                while (CommunicatorNotRunning())
+                {
+                    _log.Info("Communicator is not running. Will try again in 5 seconds");
+                    System.Threading.Thread.Sleep(5000);
+                }
+
                 var communicator = new Communicator(GetRecordHistoryInterval());
                 communicator.ConversationEnded += (s, e) => new SaveConversationToFile(_historyFile).Save(e.EventData);
 
@@ -37,6 +44,13 @@ namespace CommunicatorHistory.WinForm
             {
                 _log.Error("Exception caught", e);
             }
+        }
+
+        static bool CommunicatorNotRunning()
+        {
+            return Convert.ToInt32(Microsoft.Win32.Registry.CurrentUser
+                                    .OpenSubKey("Software").OpenSubKey("IM Providers")
+                                    .OpenSubKey("Communicator").GetValue("UpAndRunning", 1)) != 2;
         }
 
         static int GetRecordHistoryInterval()
