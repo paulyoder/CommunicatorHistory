@@ -16,7 +16,7 @@ namespace CommunicatorHistory.WinForm
 
         static string _historyFile = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
-            "IM History.txt");
+            ConfigurationManager.AppSettings["FileName"]);
         
         [STAThread]
         static void Main()
